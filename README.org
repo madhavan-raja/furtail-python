@@ -1,0 +1,95 @@
+#+title: Furtail Python
+#+author: Madhavan Raja
+#+date:
+
+#+OPTIONS: \n:t
+#+LaTeX_HEADER: \usepackage[letterpaper,margin=1in, top=.75in, bottom=.75in]{geometry}
+#+LaTeX_HEADER: \usepackage{titletoc}
+#+LaTeX_HEADER: \usepackage{wrapfig}
+#+LaTeX_HEADER: \usepackage[export]{adjustbox}
+#+LaTeX_HEADER: \usepackage{libertine}
+#+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usepackage{pdfpages}
+#+OPTIONS: toc:nil H:7 num:1 ^:nil
+
+* Database structure
+** Database
+All the contents of a database will be present in its own directory. For example, a database with the name =MyDB= will be present inside the directory =MyDB=. This directory will contain the subdirectories for its tables.
+** Table
+All the contents of a table will be present in its own directory (which itself is inside the database directory). For example, a table with the name =MyTable= will be present inside the directory named =MyDB/MyTable=. This directory will contain the files for the schema, the contents of the table, and the lookup.
+*** Schema
+Schema of the table is stored in a =schema.json= file.
+This file contains the names of the columns and the space occupied by each column in bits.
+#+begin_src json
+  {
+    "table_name": "Table Name",
+    "columns": [
+      {"Column 1", 12},
+      {"Column 2", 18},
+      {"Column 3", 30},
+      {"Column 4", 2}
+    ]
+  }
+#+end_src
+* Routes
+** POST
+*** Create
+*Endpoint:* =/create=
+*Body:*
+#+begin_src json
+  {
+    "db": "Database Name",
+    "table": "Table Name",
+    "columns": [
+      {"Column 1", 12},
+      {"Column 2", 18},
+      {"Column 3", 30},
+      {"Column 4", 2}
+    ]
+  }
+#+end_src
+1. Create a new database/table if it doesn't exist.
+   *Response:*
+   #+begin_src json
+     {"status": 201}
+   #+end_src
+2. Don't do anything if the database/table already exists.
+   *Response:*
+   #+begin_src json
+     {"status": 200}
+   #+end_src
+*** Insert
+*Endpoint:* =/insert=
+*Body:*
+#+begin_src json
+  {"data": [a, b, c, ...]}
+#+end_src
+1. Insert the values =(a, b, c, ...)= into the table if it exists.
+   *Response:*
+   #+begin_src json
+     {
+       "status": 201,
+       "values": [a, b, c, ...]
+     }
+   #+end_src
+2. Don't do anything if the database/table doesn't exist.
+   *Response:*
+   #+begin_src json
+     {"status": 401}
+   #+end_src
+** GET
+*** Query
+*Endpoint:* =/query=
+*Body:*
+#+begin_src json
+  {
+    "db": "Database Name",
+    "table": "Table Name",
+    "conditions": [
+      {3, ">=", 400},
+      {3, "<=", 600},
+      {0, "=", 1234}
+    ]
+  }
+#+end_src
+This will filter all the results where column 3 has a value between 400 and 600, and column 0 having a value of 1234.
