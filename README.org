@@ -12,6 +12,8 @@
 #+LaTeX_HEADER: \usepackage{pdfpages}
 #+OPTIONS: toc:nil H:7 num:1 ^:nil
 
+Development of the Rust version of Fur has been moved to a [[https://github.com/madhavan-raja/fur][new repository]], which contains a more raw code. This repository might be deleted at a later date. None of the following REST API structure will be implement initially.
+
 * Database structure
 ** Database
 All the contents of a database will be present in its own directory. For example, a database with the name =MyDB= will be present inside the directory =MyDB=. This directory will contain the subdirectories for its tables.
